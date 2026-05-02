@@ -40,10 +40,10 @@ For Rust binaries, build with debug info and run `dsymutil` before parsing the
 profile. For example:
 
 ```bash
-cargo build --profile profiling -p dynamo-bench --bin offline_replay_bench
-dsymutil target/profiling/offline_replay_bench
-samply record --save-only -o /tmp/offline_replay_bench_profile.json \
-  target/profiling/offline_replay_bench ...
+RUSTFLAGS="-C debuginfo=2" cargo build --release --bin my-benchmark
+dsymutil target/release/my-benchmark
+samply record --save-only -o /tmp/my-benchmark-profile.json \
+  target/release/my-benchmark ...
 ```
 
 ## Build
@@ -64,7 +64,7 @@ Single Rust binary:
 
 ```bash
 target/release/samply-hotspots \
-  --profile /tmp/offline_replay_bench_profile.json \
+  --profile /tmp/my-benchmark-profile.json \
   --binary /path/to/binary \
   --base 0x100000000 \
   --top 25
